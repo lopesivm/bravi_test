@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import sessionmaker, relationship
-from sqlalchemy.types import Integer, String
+from sqlalchemy.types import Integer, String, Boolean
 
 engine = None
 db_session = None
@@ -31,6 +31,7 @@ class Person(Base):
     __tablename__ = 'person'
     id = Column(Integer, primary_key=True)
     name = Column(String(255), nullable=False)
+    deleted = Column(Boolean, default=False)
     contacts = relationship('Contact', backref='person')
 
 class Contact(Base):
@@ -39,6 +40,7 @@ class Contact(Base):
     person_id = Column(Integer, ForeignKey('person.id'), nullable=False)
     type_id = Column(Integer, ForeignKey('contact_type.id'), nullable=False)
     value = Column(String(255), nullable=False)
+    deleted = Column(Boolean, default=False)
     type = relationship('ContactType')
 
 class ContactType(Base):

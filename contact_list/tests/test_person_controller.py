@@ -27,9 +27,8 @@ def test_update_person_success(person):
 
 def test_update_person_not_found_failure():
     test_name = 'Todd'
-    with pytest.raises(Exception):
+    with pytest.raises(person_controller.PersonException):
         person_controller.update_person(10, test_name)
-
 
 def test_get_person_by_id_success(person):
     found_person = person_controller.get_person(id=person.id)
@@ -38,7 +37,7 @@ def test_get_person_by_id_success(person):
     assert found_person['name'] == person.name
 
 def test_get_person_by_id_not_found_failure():
-    with pytest.raises(Exception):
+    with pytest.raises(person_controller.PersonException):
         person_controller.get_person(id=10)
 
 def test_get_person_by_name_success(person):
@@ -66,11 +65,11 @@ def test_get_person_by_name_not_found_success():
     assert len(found_person) == 0
 
 def test_get_person_no_parameter_failure():
-    with pytest.raises(Exception):
+    with pytest.raises(person_controller.PersonException):
         person_controller.get_person()
 
 def test_get_person_both_parameters_failure():
-    with pytest.raises(Exception):
+    with pytest.raises(person_controller.PersonException):
         person_controller.get_person(id=10, name='Joseph')
 
 def test_delete_person_success(person):
@@ -78,12 +77,12 @@ def test_delete_person_success(person):
     assert deleted_person
     assert deleted_person['id'] == person.id
     assert deleted_person['name'] == person.name
-    with pytest.raises(Exception):
+    with pytest.raises(person_controller.PersonException):
         person_controller.get_person(id=person.id)
     assert len(person_controller.get_person(name=person.name)) == 0
     session = models.get_session()
     assert not session.query(models.Person).get(person.id)
 
 def test_delete_invalid_id_failure():
-    with pytest.raises(Exception):
+    with pytest.raises(person_controller.PersonException):
         person_controller.delete_person(10)

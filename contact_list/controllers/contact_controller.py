@@ -9,3 +9,6 @@ def get_contact(contact_id=None, person_id=None, person_name=None, contact_type=
 
 def delete_contact(id):
     pass
+
+class ContactException(Exception):
+    pass

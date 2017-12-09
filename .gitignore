@@ -1,5 +1,7 @@
 .venv/
 .idea/
 
+*/tests/.cache/
+
 *.pyc
 

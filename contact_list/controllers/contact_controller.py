@@ -42,7 +42,8 @@ def get_contact(contact_id=None, person_id=None, person_name=None, contact_type=
     if (contact_id and (person_id or person_name) or (person_id and person_name)):
         raise ContactException('Too many parameters, specify either contact_id, person_id or person_name')
     if not contact_id and not person_id and not person_name:
-        raise ContactException('Missing parameters, specify either contact_id, person_id or person_name')
+        contacts = session.query(models.Contact)
+        result = [_serialize_contact(contact) for contact in contacts]
     if contact_id:
         contact = session.query(models.Contact).get(contact_id)
         if not contact:

@@ -59,11 +59,12 @@ def test_update_contact_by_id_both_fields_success(contact):
     assert db_contact.type.type_name == updated_contact['type']
 
 def test_update_contact_value_only_success(contact):
+    contact_type_type_name = contact.type.type_name
     test_value = '5511999888777'
     updated_contact = contact_controller.update_contact(contact.id, test_value)
     assert updated_contact['id'] == contact.id
     assert updated_contact['value'] == test_value
-    assert updated_contact['type'] == contact.type.type_name
+    assert updated_contact['type'] == contact_type_type_name
     session = models.get_session()
     db_contact = session.query(models.Contact).get(updated_contact['id'])
     assert db_contact
@@ -146,9 +147,11 @@ def test_get_contacts_by_person_id_and_type(person_with_contacts):
     assert len(found_contact) == 1
     assert found_contact[0]['name'] == person_with_contacts.name
 
-def test_get_contacts_contact_type_no_person_identifier_failure(contact):
-    with pytest.raises(contact_controller.ContactException):
-        contact_controller.get_contact()
+def test_get_contacts_contact_type_no_person_identifier_failure(person_with_contacts):
+    found_contacts = contact_controller.get_contact()
+    assert found_contacts
+    assert isinstance(found_contacts, list)
+    assert len(found_contacts) == 3
 
 def test_get_contact_multiple_identifiers_failure(contact):
     with pytest.raises(contact_controller.ContactException):

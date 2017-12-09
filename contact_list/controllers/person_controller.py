@@ -1,9 +1,10 @@
 from contact_list import models
+from contact_list.controllers.contact_controller import _serialize_contact
 
 def _serialize_person(person):
     return {'id': person.id,
             'name': person.name,
-            'contacts': person.contacts}
+            'contacts': [_serialize_contact(contact) for contact in person.contacts]}
 
 def add_person(name):
     session = models.get_session()
@@ -16,7 +17,7 @@ def update_person(id, name):
     session = models.get_session()
     person = session.query(models.Person).get(id)
     if not person:
-        raise PersonException('Invalid ID, person not found')
+        raise PersonNotFoundException('Invalid ID, person not found')
     person.name = name
     session.commit()
     return _serialize_person(person)
@@ -24,11 +25,11 @@ def update_person(id, name):
 def get_person(name=None, id=None):
     session = models.get_session()
     if name and id:
-        raise PersonException('Only one parameter must be defined')
+        raise PersonBadParameterException('Only one parameter must be defined')
     elif id:
         person = session.query(models.Person).get(id)
         if not person:
-            raise PersonException('Invalid ID, person not found')
+            raise PersonNotFoundException('Invalid ID, person not found')
         result = _serialize_person(person)
     elif name:
         people = session.query(models.Person).filter(models.Person.name.like('%{}%'.format(name)))
@@ -42,10 +43,17 @@ def delete_person(id):
     session = models.get_session()
     person = session.query(models.Person).get(id)
     if not person:
-        raise PersonException('Invalid ID, person not found')
+        raise PersonNotFoundException('Invalid ID, person not found')
     session.delete(person)
     session.commit()
     return _serialize_person(person)
 
 class PersonException(Exception):
+    def __init__(self, message):
+        self.message = message
+
+class PersonBadParameterException(PersonException):
+    pass
+
+class PersonNotFoundException(PersonException):
     pass

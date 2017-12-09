@@ -16,7 +16,7 @@ def update_person(id, name):
     session = models.get_session()
     person = session.query(models.Person).get(id)
     if not person:
-        raise PersonException('Person not found with id {}'.format(id))
+        raise PersonException('Invalid ID, person not found')
     person.name = name
     session.commit()
     return _serialize_person(person)
@@ -34,7 +34,8 @@ def get_person(name=None, id=None):
         people = session.query(models.Person).filter(models.Person.name.like('%{}%'.format(name)))
         result = [_serialize_person(person) for person in people]
     else:
-        raise PersonException('Name or ID must be defined')
+        people = session.query(models.Person)
+        result = [_serialize_person(person) for person in people]
     return result
 
 def delete_person(id):

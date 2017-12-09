@@ -64,9 +64,11 @@ def test_get_person_by_name_not_found_success():
     assert isinstance(found_person, list)
     assert len(found_person) == 0
 
-def test_get_person_no_parameter_failure():
-    with pytest.raises(person_controller.PersonException):
-        person_controller.get_person()
+def test_get_person_no_parameter_success(same_people):
+    found_people = person_controller.get_person()
+    assert found_people
+    assert isinstance(found_people, list)
+    assert len(found_people) == 2
 
 def test_get_person_both_parameters_failure():
     with pytest.raises(person_controller.PersonException):

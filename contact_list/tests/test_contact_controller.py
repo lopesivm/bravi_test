@@ -44,7 +44,7 @@ def test_add_contact_invalid_contact_type_failure(person):
         test_type = 'telegram'
         contact_controller.add_contact(person.id, test_value, test_type)
 
-def test_update_contact_both_fields_success(contact):
+def test_update_contact_by_id_both_fields_success(contact):
     test_value = '5511999888777'
     test_type = 'whatsapp'
     updated_contact = contact_controller.update_contact(contact.id, test_value, test_type)
@@ -52,7 +52,7 @@ def test_update_contact_both_fields_success(contact):
     assert updated_contact['value'] == test_value
     assert updated_contact['type'] == test_type
     session = models.get_session()
-    db_contact = session.query(models.Column).get(updated_contact['id'])
+    db_contact = session.query(models.Contact).get(updated_contact['id'])
     assert db_contact
     assert db_contact.id == updated_contact['id']
     assert db_contact.value == updated_contact['value']
@@ -63,9 +63,9 @@ def test_update_contact_value_only_success(contact):
     updated_contact = contact_controller.update_contact(contact.id, test_value)
     assert updated_contact['id'] == contact.id
     assert updated_contact['value'] == test_value
-    assert updated_contact['type'] == contact.value
+    assert updated_contact['type'] == contact.type.type_name
     session = models.get_session()
-    db_contact = session.query(models.Column).get(updated_contact['id'])
+    db_contact = session.query(models.Contact).get(updated_contact['id'])
     assert db_contact
     assert db_contact.id == updated_contact['id']
     assert db_contact.value == updated_contact['value']
@@ -78,7 +78,7 @@ def test_update_contact_type_only_success(contact):
     assert updated_contact['value'] == contact.value
     assert updated_contact['type'] == test_type
     session = models.get_session()
-    db_contact = session.query(models.Column).get(updated_contact['id'])
+    db_contact = session.query(models.Contact).get(updated_contact['id'])
     assert db_contact
     assert db_contact.id == updated_contact['id']
     assert db_contact.value == updated_contact['value']
@@ -99,11 +99,13 @@ def test_update_contact_invalid_contact_type_failure(contact):
         contact_controller.update_contact(contact.id, contact_type=test_type)
 
 def test_get_contact_by_id_success(contact):
+    contact_type_name = contact.type.type_name
+    contact_person_name = contact.person.name
     found_contact = contact_controller.get_contact(contact_id=contact.id)
     assert found_contact['id']
     assert found_contact['value'] == contact.value
-    assert found_contact['type'] == contact.type.type_name
-    assert found_contact['person_name'] == contact.person.name
+    assert found_contact['type'] == contact_type_name
+    assert found_contact['name'] == contact_person_name
 
 def test_get_contacts_by_name_single_person_success(person_with_contacts):
     found_contact = contact_controller.get_contact(person_name=person_with_contacts.name)
@@ -151,17 +153,18 @@ def test_get_contacts_contact_type_no_person_identifier_failure(contact):
 def test_get_contact_multiple_identifiers_failure(contact):
     with pytest.raises(contact_controller.ContactException):
         contact_controller.get_contact(contact.id, contact.person.id)
+    with pytest.raises(contact_controller.ContactException):
+        contact_controller.get_contact(contact.id, contact.person.name)
+    with pytest.raises(contact_controller.ContactException):
+        contact_controller.get_contact(contact.person.name, contact.person.id)
 
 def test_delete_contact_success(contact):
+    contact_person_id = contact.person.id
     deleted_contact = contact_controller.delete_contact(contact.id)
     assert deleted_contact
-    assert deleted_contact['id'] == contact.id
-    assert deleted_contact['value'] == contact.value
-    assert deleted_contact['name'] == contact.person.name
-    assert deleted_contact['type'] == contact.type.type_name
     with pytest.raises(contact_controller.ContactException):
-        contact_controller.get_contact(contact.id)
-    assert len(contact_controller.get_contact(person_id=contact.person.id)) == 0
+        contact_controller.get_contact(deleted_contact['id'])
+    assert len(contact_controller.get_contact(person_id=contact_person_id)) == 0
     session = models.get_session()
     assert not session.query(models.Contact).get(contact.id)
 

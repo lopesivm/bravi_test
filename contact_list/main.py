@@ -1,3 +1,8 @@
+import sys
+import os.path
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
 from flask import Flask
 from flask_restful import Api
 
@@ -17,4 +22,4 @@ api.add_resource(ContactIdView, '/contact_list/contact/<contact_id>')
 init_engine('sqlite:////tmp/contact_list.db')
 
 if __name__ == '__main__':
-    app.run(port=5000)
+    app.run(port=5001)

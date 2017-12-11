@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo "---------------------------------------------------------------"
+echo "|                     WEATHER IN MY CITY                      |" 
+echo "---------------------------------------------------------------"
+echo "| Access the web app at http://localhost:5002 in your browser |"
+echo "| Press CTRL+C to stop server                                 |" 
+echo "--------------------------------------------------------------"
+
+./venv/bin/python weather_in_my_city/main.py

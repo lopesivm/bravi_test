@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo "---------------------------------------------------------------"
+echo "|                       CONTACT LIST                          |" 
+echo "---------------------------------------------------------------"
+echo "| Refer to readme.md to get a full list of available endpoint |"
+echo "| Press CTRL+C to stop server                                 |" 
+echo "--------------------------------------------------------------"
+
+./venv/bin/python contact_list/main.py

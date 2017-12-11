@@ -1,3 +1,8 @@
+import sys
+import os.path
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
 import requests_cache
 from flask import Flask
 from flask_restful import Api
@@ -14,4 +19,4 @@ api.add_resource(CityWeatherController, '/api/weather')
 
 if __name__ == '__main__':
     print('running')
-    app.run(port=5000)
+    app.run(port=5002)

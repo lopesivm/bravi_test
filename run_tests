@@ -1,0 +1,4 @@
+#!/bin/sh
+
+./venv/bin/pytest balanced_brackets/tests
+./venv/bin/pytest contact_list/tests

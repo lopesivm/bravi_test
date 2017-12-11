@@ -11,14 +11,18 @@ This will:
 * install the test's Python dependencies listed on requirements.txt
 * run all available tests for the projects
 
+## Testing
+All available tests for the projects can be run by executing the scrit ```./run_tests```
+Due to time constraints, the project Weather in my city has no tests, being the only project not following TDD.
+
 ## Running the projects
 All projects have a script named ```exec_<project_name>```, that will use the correct python binary from the venv folder, and run the project. Below are the details per project.
 
 ### Balanced Brackets
 Run the exec_balanced_brackets script, passing strings enclosed in quotes as parameters to be validated by the software.
 Examples:
-...```./exec_balanced_brackets '[{()}]'
-...```./exec_balanced_brackets '[({})([])]' '(){}[]' '{()}{)' '()(0){}'
+```./exec_balanced_brackets '[{()}]'```
+```./exec_balanced_brackets '[({})([])]' '(){}[]' '{()}{)' '()(0){}'```
 
 ### Contact List
 Run the exec_contact_list script to run the server on [port 5001](http://localhost:5001).
@@ -36,7 +40,7 @@ The endpoints and their usage are listed below:
 [**GET**] /contact_list/person
 **Data Params** None
 **Query Params** None
-**Returns** (JSON) List of [people](#add-person)
+**Returns** (JSON) List of people
 ```
 
 #### People search
@@ -44,7 +48,7 @@ The endpoints and their usage are listed below:
 [**GET**] /contact_list/people/search
 **Data Params** None
 **Query Params** ?name=<person_name>
-**Returns** (JSON) List of [people](#add-person)
+**Returns** (JSON) List of people
 ```
 
 #### Get person by id
@@ -84,7 +88,7 @@ The endpoints and their usage are listed below:
 [**GET**] /contact_list/contact
 **Data Params** None
 **Query Params** None
-**Returns** (JSON) List of [contacts](#add-contact)
+**Returns** (JSON) List of contacts
 ```
 
 #### Contacts search
@@ -92,7 +96,7 @@ The endpoints and their usage are listed below:
 [**GET**] /contact_list/contact/search
 **Data Params** None
 **Query Params** ?person_id=<person_id> | ?person_name=<person_name> | ?contact_type=<contact_type> (only person_id OR person_name might be set on a search)
-**Returns** (JSON) List of [contacts](#add-contact)
+**Returns** (JSON) List of contacts
 ```
 
 #### Get contact by id
@@ -119,4 +123,5 @@ The endpoints and their usage are listed below:
 **Returns** (JSON) {"id": <contact_id>, "value": <contact_value>, "name": <person_name>, "type": <contact_type>}
 ```
 
-
+### Weather in my city
+Run the exec_weather_in_my_city script to run the server on [port 5002](http://localhost:5002). All process should be intuitive from the single-page web application.

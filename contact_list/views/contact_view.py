@@ -1,6 +1,5 @@
-from flask_restful import Resource
+from flask_restful import Resource, reqparse
 from flask.globals import request
-from flask_restful import reqparse
 
 from contact_list.controllers import contact_controller
 

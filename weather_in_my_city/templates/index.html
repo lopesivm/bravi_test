@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Weather in my city</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-sm bg-info navbar-dark">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://www.linkedin.com/in/lopesivan/" target="_blank">About developer</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="row">
+            <div class="col-sm-12">
+                <br>
+                <h3>Welcome to Weather in my city!</h3>
+                <br>
+                <form onsubmit="getCityWeather(); return false;">
+                    <input type="text" id="city_name" placeholder="Enter your city name">
+                    <input type="submit" id="submit_city" value="Get Weather">
+                </form>
+            </div>
+        </div>
+        <br>
+        <div id="table_container"></div>
+        {% include 'components/loader.html' %}
+        {% include 'components/city_not_found.html' %}
+        <nav class="navbar navbar-expand-sm bg-info navbar-dark footer">
+            <span class="navbar-text">
+                <i>Copyright © 2017</i>
+            </span>
+        </nav>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th colspan="6">
+                {{ city }}, {{ country_code }}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td colspan="6">
+                <span style="width:80%">{{ weather_details }}</span>
+                <span style="width:20%">
+                    <img src={{ icon_url }} style="height: 100%">
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">Temp {{ avg_temp }}ºC</td>
+            <td colspan="2">Min {{ min_temp }}ºC</td>
+            <td colspan="2">Max {{ max_temp }}ºC</td>
+        </tr>
+        <tr>
+            <td colspan="3">Humidity {{ humidity }}%</td>
+            <td colspan="3">Wind {{ wind }}m/s</td>
+        </tr>
+    </tbody>
+</table>
